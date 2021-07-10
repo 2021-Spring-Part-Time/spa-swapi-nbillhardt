@@ -3,6 +3,7 @@ import Header from "./components/Header.js";
 import HomePage from "./pages/HomePage.js";
 import apiActions from "./api-actions/api-actions.js";
 import PeoplePage from "./pages/PeoplePage.js";
+import PersonPage from "./pages/PersonPage.js"
 
 buildPage();
 
@@ -11,6 +12,7 @@ function buildPage() {
   footer();
   navigateToHomePage();
   renderPeopleInfoList();
+  renderPersonInfo();
 }
 
 function header() {
@@ -40,4 +42,17 @@ function renderPeopleInfoList() {
      app.innerHTML = PeoplePage(people);
     });
   });
+}
+
+function renderPersonInfo(){
+  const app = document.querySelector("#app");
+  app.addEventListener('click', (event)=>{
+    console.log(event.target);
+    if(event.target.classList.contains('person__name')){
+     const personUrl = event.target.parentElement.querySelector('#personId').value;
+     apiActions.getRequest(personUrl, person =>{
+       app.innerHTML = PersonPage(person)
+     })
+    }
+  })
 }
